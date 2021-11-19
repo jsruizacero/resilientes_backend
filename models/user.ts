@@ -1,12 +1,12 @@
 import { Schema, model } from 'mongoose';
-import { Enum_Rol, Enum_EstadoUsuario } from './enums';
+import { Enum_Funcion, Enum_EstadoUsuario } from './enums';
 
 interface User {
   correo: string;
   identificacion: string;
-  nombre: string;
+  nombres: string;
   apellido: string;
-  rol: Enum_Rol;
+  funcion: Enum_Funcion;
   estado: Enum_EstadoUsuario;
 }
 
@@ -14,27 +14,18 @@ const userSchema = new Schema<User>({
   correo: {
     type: String,
     required: true,
-    unique: true,
     validate: {
       validator: (email) => {
-        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
+        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);//validador encontrado en stackoverflow paa valira formate de e-mail
       },
-      // (email) => {
-      //   if (email.includes('@') && email.includes('.')) {
-      //     return true;
-      //   } else {
-      //     return false;
-      //   }
-      // },
-      message: 'El formato del correo electrónico está malo.',
+      message: 'El texto escrito no corresponde a un formato de correo electrónico.',
     },
   },
   identificacion: {
     type: String,
     required: true,
-    unique: true,
   },
-  nombre: {
+  nombres: {
     type: String,
     required: true,
   },
@@ -42,10 +33,10 @@ const userSchema = new Schema<User>({
     type: String,
     required: true,
   },
-  rol: {
+  funcion: {
     type: String,
     required: true,
-    enum: Enum_Rol,
+    enum: Enum_Funcion,
   },
   estado: {
     type: String,

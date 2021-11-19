@@ -1,6 +1,5 @@
 import { Schema, model } from 'mongoose';
 import { Enum_EstadoProyecto, Enum_FaseProyecto, Enum_TipoObjetivo } from './enums';
-import { ObjectiveModel } from './objective';
 import { UserModel } from './user';
 
 interface Proyecto {
@@ -61,6 +60,6 @@ const projectSchema = new Schema<Proyecto>({
   ],
 });
 
-const ProjectModel = model('Proyecto', projectSchema);
+const ProjectModel = model('Project', projectSchema);
 
 export { ProjectModel };

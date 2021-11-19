@@ -1,4 +1,4 @@
-enum Enum_Rol {
+enum Enum_Funcion {
   estudiante = 'estudiante',
   lider = 'lider',
   administrador = 'administrador',
@@ -33,7 +33,7 @@ enum Enum_EstadoInscripcion {
 }
 
 export {
-  Enum_Rol,
+  Enum_Funcion,
   Enum_EstadoUsuario,
   Enum_EstadoProyecto,
   Enum_FaseProyecto,

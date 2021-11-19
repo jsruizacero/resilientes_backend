@@ -1,29 +1,101 @@
-import express from 'express';
-import cors from 'cors';
-import { ApolloServer } from 'apollo-server-express';
-import connectDB from './db/db';
+import conectarComBD from './db/database';
+import { UserModel } from './models/user';
+import { ProjectModel } from './models/project';
+import { Enum_EstadoUsuario, Enum_Funcion, Enum_TipoObjetivo  } from './models/enums';
+import { ObjectId } from 'mongoose';
 
-import types from './graphql/types';
-import resolvers from './graphql/resolvers';
+const main = async () => {
+  await conectarComBD();
+  
 
-import dotenv from 'dotenv';
+  // CREAR UN USUARIO
+  const usuario1= await UserModel.create({
+    nombres: 'Luz Helena',
+    apellido: 'Camacho',
+    correo: 'luxajag@gmail.com',
+    identificacion: '52958032',
+    funcion: Enum_Funcion.estudiante,
+    estado:Enum_EstadoUsuario.autorizado,
+  })
+    .then((u) => {
+      console.log('Usuario creado', u);
+    })
+    .catch((e) => {
+      console.error('Error creando usuario', e);
+    });
 
-dotenv.config();
+  // CREAR UN Proyecto
+  await ProjectModel.create({
+    nombre: 'Proyecto Resilientes',
+    fechaInicio: new Date('2021/12/31'),
+    fechaFin: new Date('2022/12/31'),
+    presupuesto: 1000000,
+    lider:'619709f56979b99485bd1f1e',
+    objetivos: [
+      { descripcion: 'Crear CRUD', tipo: Enum_TipoObjetivo.general },
+      { descripcion: 'Aprender Mongoose', tipo: Enum_TipoObjetivo.especifico },
+      { descripcion: 'Conectar database', tipo: Enum_TipoObjetivo.especifico },
+    ],
+  })
+    .then((u) => {
+      console.log('Proyecto creado', u);
+    })
+    .catch((e) => {
+      console.error('Error creando usuario', e);
+    });
 
-const server = new ApolloServer({
-  typeDefs: types,
-  resolvers: resolvers,
-});
-const app = express();
+//OBTENER LOS USUARIOS
+  await UserModel.find()
+    .then((u) => {
+      console.log('usuarios', u);
+    })
+    .catch((e) => {
+      console.error('error obteniendo los usuarios', e);
+    });
 
-app.use(express.json());
+//OBTENER LOS PROYECTOS
+  await UserModel.find()
+    .then((u) => {
+      console.log('proyectos', u);
+    })
+    .catch((e) => {
+      console.error('error obteniendo los proyectos', e);
+    });
 
-app.use(cors());
+// OBTENER UN SOLO USUARIO
+  await UserModel.findOne({ identificacion: '16546' })
+    .then((u) => {
+      console.log('usuario encontrado', u);
+    })
+    .catch((e) => {
+      console.error(e);
+    });
 
-app.listen({ port: process.env.PORT }, async () => {
-  await connectDB();
-  await server.start();
-  server.applyMiddleware({ app });
+// EDITAR UN USUARIO
+await UserModel.findOneAndUpdate(
+  { correo: 'jsruizacero@gmail.com' },
+  {
+    nombre: 'Sebastian',
+    apellido: 'Ruiz',
+  }
+)
+  .then((u) => {
+    console.log('usuario actualizado', u);
+  })
+  .catch((e) => {
+    console.error('Error actualizando', e);
+  });
 
-  console.log(`🚀 Server ready at http://localhost:${process.env.PORT}${server.graphqlPath}`);
-});
+// ELIMINAR UN USUARIO
+await UserModel.findOneAndDelete({ correo: 'jsruizacero@ggsdds.com' })
+  .then((u) => {
+    console.log('usuario eliminado: ', u);
+  })
+  .catch((e) => {
+    console.error(e);
+  });
+
+
+};
+
+main();
