@@ -1,13 +1,12 @@
 import conectarComBD from './db/database';
 import { UserModel } from './models/user';
 import { ProjectModel } from './models/project';
-import { Enum_EstadoUsuario, Enum_Funcion, Enum_TipoObjetivo  } from './models/enums';
+import { Enum_EstadoUsuario, Enum_Funcion, Enum_TipoObjetivo,Enum_EstadoProyecto  } from './models/enums';
 import { ObjectId } from 'mongoose';
 
 const main = async () => {
-  await conectarComBD();
-  
 
+  await conectarComBD();
   // CREAR UN USUARIO
   const usuario1= await UserModel.create({
     nombres: 'Luz Helena',
@@ -96,6 +95,43 @@ await UserModel.findOneAndDelete({ correo: 'jsruizacero@ggsdds.com' })
   });
 
 
+  // Eliminar un proyecto. 
+  await conectarComBD();
+  await ProjectModel.findOneAndDelete({_id:'619720fc5b5c1317fcf2cb5a'})
+  .then((u) => {
+    console.log('Proyecto eliminado 619720fc5b5c1317fcf2cb5a ', u);
+  })
+  .catch((e) => {
+    console.error(e);
+  });
+
+  // EDITAR UN PROYECTO
+await ProjectModel.findOneAndUpdate(
+  { _id:'619721499daf526ad972a96f' },
+  {
+    nombre:"Proyecto actualizado"
+  }
+)
+  .then((u) => {
+    console.log('Proyecto actualizado', u);
+  })
+  .catch((e) => {
+    console.error('Error actualizando', e);
+  });
+
+// EDITAR ESTADO DEL PROYECTO
+await ProjectModel.findOneAndUpdate(
+  { _id:'619721499daf526ad972a96f' },
+  {
+    estado:Enum_EstadoProyecto.inactivo,
+  }
+)
+  .then((u) => {
+    console.log('Proyecto actualizado', u);
+  })
+  .catch((e) => {
+    console.error('Error actualizando', e);
+  });
 };
 
 main();
