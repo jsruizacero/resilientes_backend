@@ -1,7 +1,7 @@
 import conectarComBD from './db/database';
 import { UserModel } from './models/user';
 import { ProjectModel } from './models/project';
-import { Enum_EstadoUsuario, Enum_Funcion, Enum_TipoObjetivo,Enum_EstadoProyecto  } from './models/enums';
+import { Enum_EstadoUsuario, Enum_Funcion, Enum_TipoObjetivo,Enum_EstadoProyecto, Enum_FaseProyecto } from './models/enums';
 import { ObjectId } from 'mongoose';
 
 const main = async () => {
@@ -109,7 +109,7 @@ await UserModel.findOneAndDelete({ correo: 'jsruizacero@ggsdds.com' })
 await ProjectModel.findOneAndUpdate(
   { _id:'619721499daf526ad972a96f' },
   {
-    nombre:"Proyecto actualizado"
+    nombre:"Proyecto actualizado1"
   }
 )
   .then((u) => {
@@ -124,6 +124,19 @@ await ProjectModel.findOneAndUpdate(
   { _id:'619721499daf526ad972a96f' },
   {
     estado:Enum_EstadoProyecto.inactivo,
+  }
+)
+  .then((u) => {
+    console.log('Proyecto actualizado', u);
+  })
+  .catch((e) => {
+    console.error('Error actualizando', e);
+  });
+  // EDITAR FASE DEL PROYECTO
+await ProjectModel.findOneAndUpdate(
+  { _id:'619721499daf526ad972a96f' },
+  {
+    fase:Enum_FaseProyecto.terminado,
   }
 )
   .then((u) => {
