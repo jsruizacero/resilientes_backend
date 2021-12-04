@@ -1,12 +1,12 @@
 import { Schema, model } from 'mongoose';
-import { Enum_Funcion, Enum_EstadoUsuario } from './enums';
+import { Enum_Rol, Enum_EstadoUsuario } from './enums';
 
 interface User {
   correo: string;
   identificacion: string;
-  nombres: string;
+  nombre: string;
   apellido: string;
-  funcion: Enum_Funcion;
+  rol: Enum_Rol;
   estado: Enum_EstadoUsuario;
 }
 
@@ -25,7 +25,7 @@ const userSchema = new Schema<User>({
     type: String,
     required: true,
   },
-  nombres: {
+  nombre: {
     type: String,
     required: true,
   },
@@ -33,15 +33,15 @@ const userSchema = new Schema<User>({
     type: String,
     required: true,
   },
-  funcion: {
+ rol: {
     type: String,
     required: true,
-    enum: Enum_Funcion,
+    enum: Enum_Rol,
   },
   estado: {
     type: String,
     enum: Enum_EstadoUsuario,
-    default: Enum_EstadoUsuario.pendiente,
+    default: Enum_EstadoUsuario.PENDIENTE,
   },
 });
 
