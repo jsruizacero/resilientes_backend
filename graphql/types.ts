@@ -6,6 +6,7 @@ import { tiposAvance } from '../models/avance/tipos';
 import { tiposInscripcion } from '../models/inscripcion/tipos';
 
 
+
 const tiposGlobales = gql`
   scalar Date
 `;

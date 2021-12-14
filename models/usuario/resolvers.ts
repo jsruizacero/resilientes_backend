@@ -12,18 +12,19 @@ const resolversUsuario = {
     },
   },
   Mutation: {
-    crearUsuario: async (parent, args) => {
+    crearUsuario: async ( parent, args) => {
       const usuarioCreado = await UserModel.create({
         nombre: args.nombre,
         apellido: args.apellido,
         identificacion: args.identificacion,
         correo: args.correo,
         rol: args.rol,
+        estado: args.estado
       });
 
-      if (Object.keys(args).includes('estado')) {
-        usuarioCreado.estado = args.estado;
-      }
+      // if (Object.keys(args).includes('estado')) {
+      //   usuarioCreado.estado = args.estado;
+      // }
 
       return usuarioCreado;
     },
@@ -35,7 +36,11 @@ const resolversUsuario = {
         correo: args.correo,
         rol: args.rol,
         estado: args.estado,
-      });
+      },
+      {
+        new: true,
+      }
+      );
 
       return usuarioEditado;
     },

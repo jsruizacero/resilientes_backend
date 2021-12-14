@@ -7,10 +7,10 @@ interface Proyecto {
   presupuesto: number;
   fechaInicio: Date;
   fechaFin: Date;
-  estado: Enum_EstadoProyecto;
-  fase: Enum_FaseProyecto;
-  lider: Schema.Types.ObjectId;
-  objetivos: [{ descripcion: String; tipo: Enum_TipoObjetivo }];
+  // estado: Enum_EstadoProyecto;
+  // fase: Enum_FaseProyecto;
+  lider: string;
+  // objetivos: [{ descripcion: String; tipo: Enum_TipoObjetivo }];
 }
 
 const projectSchema = new Schema<Proyecto>({
@@ -30,34 +30,46 @@ const projectSchema = new Schema<Proyecto>({
     type: Date,
     required: true,
   },
-  estado: {
-    type: String,
-    enum: Enum_EstadoProyecto,
-    default: Enum_EstadoProyecto.INACTIVO
-  },
-  fase: {
-    type: String,
-    enum: Enum_FaseProyecto,
-    default: Enum_FaseProyecto.NULO,
-  },
+  // estado: {
+  //   type: String,
+  //   enum: Enum_EstadoProyecto,
+  //   default: Enum_EstadoProyecto.INACTIVO
+  // },
+  // fase: {
+  //   type: String,
+  //   enum: Enum_FaseProyecto,
+  //   default: Enum_FaseProyecto.NULO,
+  // },
   lider: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: UserModel,
+    type: String,
+    // required: true,
+    // ref: UserModel,
   },
-  objetivos: [
-    {
-      descripcion: {
-        type: String,
-        required: true,
-      },
-      tipo: {
-        type: String,
-        enum: Enum_TipoObjetivo,
-        required: true,
-      },
-    },
-  ],
+  // objetivos: [
+  //   {
+  //     descripcion: {
+  //       type: String,
+  //       // required: true,
+  //     },
+  //     tipo: {
+  //       type: String,
+  //       enum: Enum_TipoObjetivo,
+  //       // required: true,
+  //     },
+  //   },
+  // ],
+});
+
+projectSchema.virtual('avances', {
+  ref: 'Avance',
+  localField: '_id',
+  foreignField: 'proyecto',
+});
+
+projectSchema.virtual('inscripciones', {
+  ref: 'Inscripcion',
+  localField: '_id',
+  foreignField: 'proyecto',
 });
 
 const ProjectModel = model('Project', projectSchema);

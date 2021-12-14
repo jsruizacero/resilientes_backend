@@ -1,5 +1,5 @@
-import { Schema, model } from 'mongoose';
-import { Enum_Rol, Enum_EstadoUsuario } from '../enums/enums';
+import { Schema, model } from "mongoose";
+import { Enum_Rol, Enum_EstadoUsuario } from "../enums/enums";
 
 interface User {
   correo: string;
@@ -13,29 +13,30 @@ interface User {
 const userSchema = new Schema<User>({
   correo: {
     type: String,
-    required: true,
-    validate: {
-      validator: (email) => {
-        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);//validador encontrado en stackoverflow paa valira formate de e-mail
-      },
-      message: 'El texto escrito no corresponde a un formato de correo electrónico.',
-    },
+    // required: true,
+    // validate: {
+    //   validator: (email) => {
+    //     return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);//validador encontrado en stackoverflow paa valira formate de e-mail
+    //   },
+    //   message: 'El texto escrito no corresponde a un formato de correo electrónico.',
+    // },
   },
   identificacion: {
     type: String,
-    required: true,
+    // required: true,
   },
   nombre: {
     type: String,
-    required: true,
+    // required: true,
   },
   apellido: {
     type: String,
-    required: true,
+    // required: true,
   },
- rol: {
+  rol: {
     type: String,
-    required: true,
+    // required: true,
+    default: Enum_Rol.ESTUDIANTE,
     enum: Enum_Rol,
   },
   estado: {
@@ -45,6 +46,6 @@ const userSchema = new Schema<User>({
   },
 });
 
-const UserModel = model('User', userSchema);
+const UserModel = model("User", userSchema);
 
 export { UserModel };
